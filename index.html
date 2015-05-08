@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Visual Component Library “VCL“</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(//fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+      .red { color: red; }
+
+      blockquote { background-color: lightgray; font-family: serif; }
+
+      img { max-width: 100%; }
+
+      small { font-size: 70%; }
+
+      iframe { width: 100%; height: 25em; }
+
+      table { border-collapse: collapse; }
+
+      table td { border: 1px solid black; padding: 0.2em; }
+
+      /* Two-column layout */
+      .left-column {
+        width: 48%;
+        height: 92%;
+        float: left;
+      }
+
+      .right-column {
+        width: 48%;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+<img src="https://avatars0.githubusercontent.com/u/8158057?v=3&s=200">
+
+# The Visual Component Library “VCL“
+## Modular, extensible CSS
+
+Thomas Hoppe in 2015
+
+---
+
+# What is it?
+
+> **Modular** and **extensible** CSS library for Web development today and tomorrow –
+> the era of component-based Web application development.
+
+- It's 100% JS free
+- It can be combined with EmberJS, Angular, React etc.
+- You must not use any styles, you can also just use the infrastructure
+
+---
+
+# Terminology
+
+__Component__: A style definition for a UI element
+
+__Module__: An NPM module containing 1 - n components
+
+__Theme__: A component which only defines variables for other components
+
+__Theme terms__: High level theme defining colors, shades and fonts
+
+---
+
+# Technically
+
+- Preprocessor based on 
+[rework](https://github.com/reworkcss)
+
+- Package management based on
+[npm](https://www.npmjs.org/)
+
+- [Gulp](http://gulpjs.com/)
+as task runner
+
+---
+
+# Why is it _modular_?
+
+Because you can use whatever modules you want
+for your styling needs. 
+
+Modules can be from the official VCL repos
+from third parties or your own ones.
+
+We use **soft dependencies** specified 
+as `devDependencies` in `package.json` files ‒
+e. g.:
+
+    "devDependencies": {
+      "gulp": "^3.8.10",
+      "gulp-vcl-preprocessor": "git://github.com/vcl/gulp-vcl-preprocessor",
+      "normalize.css": "^3.0.2",
+      "pre-commit": "^1.0.6",
+      "vcl-build-demo": "git://github.com/vcl/build-demo",
+      "vcl-default-theme": "git://github.com/vcl/default-theme",
+      "vcl-default-theme-terms": "git://github.com/vcl/default-theme-terms",
+      "vcl-font-awesome": "git://github.com/vcl/font-awesome",
+      "vcl-form": "git://github.com/vcl/form",
+      "vcl-form-control-label": "git://github.com/vcl/form-control-label",
+      "vcl-icon": "git://github.com/vcl/icon",
+      "vcl-preprocessor": "git://github.com/vcl/preprocessor"
+    }
+
+---
+
+# Why is it _extensible_?
+
+It is in many ways:
+
+- You can add your own components components
+- You can extend existing components by adding CSS rules
+- You can adapt existing components by overriding styles and/ or variables
+
+Everything through modules.
+
+Extensions do not distrupt the build process.
+
+---
+
+# How do Imports work?
+
+The normal CSS `@import` statement is used in two flavors:
+
+Import a module via `@import "<module name>"`
+
+Import a local file via `@import "<file name>.styl|css"`
+
+---
+
+# Components by Example
+
+See what makes up a component by the _button_: 
+
+[https://github.com/vcl/button](https://github.com/vcl/button)
+
+---
+
+# Putting it together
+
+Best explained by an include hierarchy of a typical project:
+
+    @import "vcl-default-theme-terms"   ← Use the terms of the default theme 
+    @import "vcl-default-theme"         ← Use the default theme
+    @import "./vcl-var-override.styl"   ← Override some vars
+    @import "vcl-core-modules"          ← Use the collection of core modules
+    @import "vcl-font-awesome"          ← Use font awesome
+    @import "./own-modules.css"         ← Add some own stuff
+
+---
+
+# What exists currently?
+
+There is a collection of **~70 __core modules__**
+with components ranging from typographical styles for text,
+links, lists etc. to complex widgets like a date picker.
+They roughly make up for what you can find in Bootstrap plus some 
+extensions.
+
+---
+
+# Browser Compatibility
+
+Is mainly a build time decision, 
+how you parameterize
+[autoprefixer](https://github.com/postcss/autoprefixer).
+
+As a result, even IE8 is possible for 
+many components.
+
+On the other hand some components
+use _flexbox_, _transitions_,
+_media queries_ etc. which are not
+available in older browsers.
+
+---
+
+# WARNING, It is opinionated
+
+- Source is written in
+[white space significant syntax](https://www.npmjs.org/package/css-whitespace), `.styl` suffix
+- Uses relative units like `em`, `rem` everywhere (except for some borders)
+- CamelCased class names like `vclFlipSwitch`
+
+---
+
+# How to “run“ a Component
+
+````bash
+$ git clone https://github.com/vcl/date-picker.git
+
+$ cd date-picker
+
+$ npm install
+
+$ npm start
+````
+
+This will:
+1. install the `gulp-vcl-preprocessor` 
+2. install all dependent VCL modules 
+3. Build the styles and copy stuff to the `build` folder
+4. Start a web server, serving the `build` folder
+5. Open your browser to show all demos from the `demo` folder
+
+---
+
+# How to build a Distribution?
+
+[See the tutorial](https://github.com/vcl/doc/tree/master/tutorial).
+
+---
+
+# The Doc Client
+
+TODO
+
+---
+
+# Status
+
+The VCL has gone a very long way, it has ben initiated years ago.
+It's battle proven in:
+
+- Static web sites
+- Single page app based web sites
+- Mobile apps
+- Enterprise apps
+
+But we are on a conservative **0.1.0 version level** that we 
+froze in summer 2015.
+
+Of course we adhere to
+[semver](http://semver.org/).
+
+We did not publish to NPM yet
+but consider this in the future.
+
+---
+
+# Open Issues / Roadmap
+
+- Document classes and modifiers better
+
+- More components
+
+- Conditional builds
+
+---
+
+# Who's behind it?
+
+- Mainly created and maintained by [n-fuse](http://www.n-fuse.de) employees
+
+- 6 comitters currently
+
+- Open for your contributions!
+
+---
+
+class: center, middle
+
+# Thank you
+
+<br>
+
+<small>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+  This work is licensed under a <br><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+  Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+</a>.
+<small>
+    </textarea>
+    <script src="//gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+
+  </body>
+</html>
