@@ -17,6 +17,8 @@
 
       .red { color: red; }
 
+      .big { font-size: 115%; }
+
       blockquote { background-color: lightgray; font-family: serif; }
 
       img { max-width: 100%; }
@@ -58,51 +60,114 @@ Thomas Hoppe in 2015
 
 # What is it?
 
-> **Modular** and **extensible** CSS library for Web development today and tomorrow –
-> the era of component-based Web application development.
+<span class="big">
+**Modular** and **extensible** CSS library for Web development of today and
+tomorrow – the era of component-based Web application development.
+</span>
 
-- It's 100% JS free
-- It can be combined with EmberJS, Angular, React etc.
-- You must not use any styles, you can also just use the infrastructure
+<br>
+
+- It's 100% JS-free
+
+- It can be combined with EmberJS, Angular, React and the like
+
+- A style agnostic toolchain
 
 ---
 
 # Terminology
 
-__Component__: A style definition for a UI element
+__Component__: A self-contained UI element like a button
 
 __Module__: An NPM module containing 1 - n components
 
-__Theme__: A component which only defines variables for other components
+__Theme__: A module which only defines variables for other components
 
 __Theme terms__: High level theme defining colors, shades and fonts
 
 ---
 
-# Technically
+# Technical Basis
 
-- Preprocessor based on 
+- Preprocessor based on
 [rework](https://github.com/reworkcss)
 
-- Package management based on
-[npm](https://www.npmjs.org/)
-
-- [Gulp](http://gulpjs.com/)
-as task runner
+- [npm](https://www.npmjs.org/) as
+package management vehicle
 
 ---
 
 # Why is it _modular_?
 
-Because you can use whatever modules you want
-for your styling needs. 
+Because components are packaed as NPM modules which may be from:
 
-Modules can be from the official VCL repos
-from third parties or your own ones.
+- the VCL org's repositories,
+- third parties,
+- your own ones.
 
-We use **soft dependencies** specified 
-as `devDependencies` in `package.json` files ‒
-e. g.:
+This means you can use exactly the modules you need
+to cover the styling needs of your projects.
+
+
+---
+
+# How is it _extensible_?
+
+It is in several ways:
+
+- You can add your own components or just files,
+
+- You can extend existing components by adding CSS rules,
+
+- You can adapt existing components by overriding styles and/ or variables.
+
+Everything through modules.
+
+Extensions can thus seamlessly be integrated in the build process.
+
+---
+
+# Installing Modules
+
+````shell
+$ npm install vcl/button#v0.1.0
+````
+<small>
+We did not yet publish to NPM
+but that's not an issue with recent NPM versions which allow to specify with
+releases in GIT url.
+</small>
+
+---
+
+# Using Modules
+
+The CSS `@import`-statement is used to import modules and files:
+
+Import a module via `@import "<module name>"`
+
+Import a local file via `@import "<file name>.styl|css"`
+
+---
+
+# Anatomy of a Module
+
+See what makes up a module using the example of the _button_:
+
+[https://github.com/vcl/button](https://github.com/vcl/button)
+
+This definition in `package.json` specifies the index style file:
+
+`"style": "index.styl"`
+
+It functions in the same way as the `main` property for JS-modules.
+
+---
+
+# Soft Dependencies
+
+Soft dependencies via `devDependencies` are used to specify the
+dependencies of modules to run the demos. An example `package.json`:
 
     "devDependencies": {
       "gulp": "^3.8.10",
@@ -113,51 +178,17 @@ e. g.:
       "vcl-default-theme": "git://github.com/vcl/default-theme",
       "vcl-default-theme-terms": "git://github.com/vcl/default-theme-terms",
       "vcl-font-awesome": "git://github.com/vcl/font-awesome",
-      "vcl-form": "git://github.com/vcl/form",
-      "vcl-form-control-label": "git://github.com/vcl/form-control-label",
       "vcl-icon": "git://github.com/vcl/icon",
       "vcl-preprocessor": "git://github.com/vcl/preprocessor"
     }
 
 ---
 
-# Why is it _extensible_?
+# Real World Use
 
-It is in many ways:
+Best explained by an `index.styl` file of a typical project:
 
-- You can add your own components components
-- You can extend existing components by adding CSS rules
-- You can adapt existing components by overriding styles and/ or variables
-
-Everything through modules.
-
-Extensions do not distrupt the build process.
-
----
-
-# How do Imports work?
-
-The normal CSS `@import` statement is used in two flavors:
-
-Import a module via `@import "<module name>"`
-
-Import a local file via `@import "<file name>.styl|css"`
-
----
-
-# Components by Example
-
-See what makes up a component by the _button_: 
-
-[https://github.com/vcl/button](https://github.com/vcl/button)
-
----
-
-# Putting it together
-
-Best explained by an include hierarchy of a typical project:
-
-    @import "vcl-default-theme-terms"   ← Use the terms of the default theme 
+    @import "vcl-default-theme-terms"   ← Use the terms of the default theme
     @import "vcl-default-theme"         ← Use the default theme
     @import "./vcl-var-override.styl"   ← Override some vars
     @import "vcl-core-modules"          ← Use the collection of core modules
@@ -166,23 +197,37 @@ Best explained by an include hierarchy of a typical project:
 
 ---
 
-# What exists currently?
+# Current Module Stock
 
 There is a collection of **~70 __core modules__**
 with components ranging from typographical styles for text,
 links, lists etc. to complex widgets like a date picker.
-They roughly make up for what you can find in Bootstrap plus some 
-extensions.
+They make up for more than what you can find in Bootstrap.
+
+---
+
+# WARNING, It is opinionated
+
+- CSS code is written using the
+[white space significant syntax](https://www.npmjs.org/package/css-whitespace),
+`.styl` suffix
+  - You can also use plain CSS for your components
+
+- Uses relative units like `em`, `rem` everywhere (except for some borders)
+
+- Class names are camelCased like `vclFlipSwitch`
+
+- Embraces flexbox
 
 ---
 
 # Browser Compatibility
 
-Is mainly a build time decision, 
+Is mainly a build time decision,
 how you parameterize
 [autoprefixer](https://github.com/postcss/autoprefixer).
 
-As a result, even IE8 is possible for 
+As a result, even IE8 is possible for
 many components.
 
 On the other hand some components
@@ -192,18 +237,9 @@ available in older browsers.
 
 ---
 
-# WARNING, It is opinionated
+# “Running“ the Demos of a Module
 
-- Source is written in
-[white space significant syntax](https://www.npmjs.org/package/css-whitespace), `.styl` suffix
-- Uses relative units like `em`, `rem` everywhere (except for some borders)
-- CamelCased class names like `vclFlipSwitch`
-
----
-
-# How to “run“ a Component
-
-````bash
+````shell
 $ git clone https://github.com/vcl/date-picker.git
 
 $ cd date-picker
@@ -214,29 +250,95 @@ $ npm start
 ````
 
 This will:
-1. install the `gulp-vcl-preprocessor` 
-2. install all dependent VCL modules 
+
+1. install the `gulp-vcl-preprocessor`
+2. install all dependent VCL modules
 3. Build the styles and copy stuff to the `build` folder
 4. Start a web server, serving the `build` folder
 5. Open your browser to show all demos from the `demo` folder
 
 ---
 
-# How to build a Distribution?
+# Creating Builds
 
-[See the tutorial](https://github.com/vcl/doc/tree/master/tutorial).
+1.) Via CLI
+
+```shell
+$ npm install -g vcl/preprocessor#v0.1.0
+
+$ vcl-preprocessor index.styl dist/compiled.css
+```
+
+2.) `package.json` script
+
+    "scripts": {
+      "build-css": "node ./node_modules/.bin/vcl-preprocessor index.styl vcl.css"
+    },
+
+3.) [Gulp task](https://github.com/vcl/gulp-vcl-preprocessor)
 
 ---
 
-# The Doc Client
+# The Doc Generator
+
+The [doc-gen](https://github.com/vcl/doc-gen)
+allows to generate a browsable catalog of all VCL modules used
+in a project.
+
+- The documentation and the demos can be browsed conveniently
+
+- Includes all VCL modules in the dependency tree (“recursive“)
+
+- Completely decentralized, no registry or manual enumeration required
+
+<br>
+Check the
+[Generated Docs of all Core Modules](https://vcl.github.io/)
+as an example.
+
+---
+
+# VCL Meta Data in `package.json`
+
+The doc-generator is fed by the `categories` part of the meta data.
+
+A module can have multiple categories. The pririties affect the
+sort order in the menu of the generated documentation.
+
+    "vcl": {
+      "needs": [
+        "theme"
+      ],
+      "provides": [
+        "button"
+      ],
+      "categories": [
+        {
+          "title": "Buttons",
+          "itemPriority": 10,
+          "priority": 80
+        }
+      ]
+    }
+
+---
+
+# Example Use of the Doc Generator
 
 TODO
 
 ---
 
+class: center, middle
+
+Check the [VCL tutorial](https://github.com/vcl/doc/tree/master/tutorial)
+project to see everything put together.
+
+---
+
 # Status
 
-The VCL has gone a very long way, it has ben initiated years ago.
+The VCL has come quite a long way, it has ben initiated years ago.
 It's battle proven in:
 
 - Static web sites
@@ -244,7 +346,7 @@ It's battle proven in:
 - Mobile apps
 - Enterprise apps
 
-But we are on a conservative **0.1.0 version level** that we 
+We are on a conservative **0.1.0 version level** that we
 froze in summer 2015.
 
 Of course we adhere to
@@ -257,11 +359,13 @@ but consider this in the future.
 
 # Open Issues / Roadmap
 
-- Document classes and modifiers better
+- Document classes and modifiers more
 
 - More components
 
 - Conditional builds
+
+- Support themes better in doc-gen
 
 ---
 
@@ -271,7 +375,7 @@ but consider this in the future.
 
 - 6 comitters currently
 
-- Open for your contributions!
+We are open for your contributions!
 
 ---
 
