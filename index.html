@@ -101,9 +101,9 @@ package management vehicle
 
 Because components are packaed as NPM modules which may be from:
 
-- the VCL org's repositories,
-- third parties,
-- your own ones.
+- the VCL org's repositories
+- third parties
+- your own ones
 
 This means you can use exactly the modules you need
 to cover the styling needs of your projects.
@@ -115,15 +115,15 @@ to cover the styling needs of your projects.
 
 It is in several ways:
 
-- You can add your own components or just files,
+- You can add your own components or just files
 
-- You can extend existing components by adding CSS rules,
+- You can extend existing components by adding CSS rules
 
-- You can adapt existing components by overriding styles and/ or variables.
+- You can adapt existing components by overriding styles and/ or variables
 
-Everything through modules.
+Everything through modules
 
-Extensions can thus seamlessly be integrated in the build process.
+Extensions can thus seamlessly be integrated in the build process
 
 ---
 
@@ -184,9 +184,9 @@ dependencies of modules to run the demos. An example `package.json`:
 
 ---
 
-# Real World Use
+# Real World Example
 
-Best explained by an `index.styl` file of a typical project:
+Best explained by a typical `index.styl` of a web app:
 
     @import "vcl-default-theme-terms"   ← Use the terms of the default theme
     @import "vcl-default-theme"         ← Use the default theme
@@ -199,10 +199,11 @@ Best explained by an `index.styl` file of a typical project:
 
 # Current Module Stock
 
-There is a collection of **~70 __core modules__**
-with components ranging from typographical styles for text,
+- There is a collection of **~70 __core modules__**
+  * with components ranging from typographical styles for text,
 links, lists etc. to complex widgets like a date picker.
-They make up for more than what you can find in Bootstrap.
+
+- They make up for more than what you can find in Bootstrap
 
 ---
 
@@ -272,7 +273,7 @@ $ vcl-preprocessor index.styl dist/compiled.css
 2.) `package.json` script
 
     "scripts": {
-      "build-css": "node ./node_modules/.bin/vcl-preprocessor index.styl vcl.css"
+      "build-css": "vcl-preprocessor index.styl vcl.css"
     },
 
 3.) [Gulp task](https://github.com/vcl/gulp-vcl-preprocessor)
@@ -289,56 +290,68 @@ in a project.
 
 - Includes all VCL modules in the dependency tree (“recursive“)
 
-- Completely decentralized, no registry or manual enumeration required
+- Completely introspection based; no registry or manual enumeration required
 
 <br>
 Check the
-[Generated Docs of all Core Modules](https://vcl.github.io/)
+**[Generated Docs of all Core Modules](https://vcl.github.io/)**
 as an example.
 
 ---
 
-# VCL Meta Data in `package.json`
+# Doc related Module Meta Data in `package.json`
 
 The doc-generator is fed by the `categories` part of the meta data.
 
-A module can have multiple categories. The pririties affect the
-sort order in the menu of the generated documentation.
+- A module can have multiple categories
+- The priorities affect the sort order in the menu of the generated
+  documentation
+
 
     "vcl": {
-      "needs": [
-        "theme"
-      ],
-      "provides": [
-        "button"
-      ],
       "categories": [
         {
           "title": "Buttons",
-          "itemPriority": 10,
-          "priority": 80
+          "itemPriority": 10,     ← Order of the category
+          "priority": 80          ← Order of the module within the category
         }
       ]
     }
 
+There is a
+[list of categories](https://raw.githubusercontent.com/vcl/doc/master/component_categories.yml)
+but it's not mandatory to use them.
+
 ---
 
-# Example Use of the Doc Generator
+# Creating Docs
 
-TODO
+1.) Via CLI
+
+```shell
+$ npm install -g vcl/doc-gen#v0.1.0
+
+$ vcl-docgen --entry ./package.json --output doc.html
+```
+
+2.) `package.json` script
+
+    "scripts": {
+      "doc-gen": "vcl-docgen && opn ./vcl-documentation.html",
+    },
 
 ---
 
 class: center, middle
 
-Check the [VCL tutorial](https://github.com/vcl/doc/tree/master/tutorial)
+Check the **[VCL tutorial](https://github.com/vcl/doc/tree/master/tutorial)**
 project to see everything put together.
 
 ---
 
 # Status
 
-The VCL has come quite a long way, it has ben initiated years ago.
+The VCL has come quite a long way, initiated as a monolith years ago.
 It's battle proven in:
 
 - Static web sites
@@ -365,6 +378,8 @@ but consider this in the future.
 
 - Conditional builds
 
+- Support for `@apply` based extends for easy theme extension
+
 - Support themes better in doc-gen
 
 ---
@@ -375,7 +390,7 @@ but consider this in the future.
 
 - 6 comitters currently
 
-We are open for your contributions!
+**We are open for your contributions!**
 
 ---
 
