@@ -61,17 +61,19 @@ Thomas Hoppe in 2015
 # What is it?
 
 <span class="big">
-**Modular** and **extensible** CSS library for Web development of today and
-tomorrow – the era of component-based Web application development.
+A **Modular** and **extensible** approach to CSS for the era of component-based
+Web application development.
 </span>
 
 <br>
 
-- It's 100% JS-free
+- Moular, not a framework, 100% JS-free
 
-- It can be combined with EmberJS, Angular, React and the like
+- For static sites and EmberJS, Angular, React driven SPAs
 
-- A style agnostic toolchain
+- Does not break your build process, it's part of it
+
+- Existing library of 85 ready-to-use modules
 
 ---
 
@@ -89,25 +91,25 @@ __Theme terms__: High level theme defining colors, shades and fonts
 
 # Technical Basis
 
-- Preprocessor based on
-[rework](https://github.com/reworkcss)
+- [Preprocessor](https://github.com/vcl/preprocessor) based on
+[rework css](https://github.com/reworkcss)
+  - [Gulp Task](https://github.com/vcl/gulp-vcl-preprocessor)
 
 - [npm](https://www.npmjs.org/) as
-package management vehicle
+package management vehicle and module registry
 
 ---
 
 # Why is it _modular_?
 
-Because components are packaed as NPM modules which may be from:
+Because components are packaged as NPM modules which may be from:
 
 - the VCL org's repositories
 - third parties
 - your own ones
 
 This means you can use exactly the modules you need
-to cover the styling needs of your projects.
-
+to cover the styling needs of a project.
 
 ---
 
@@ -115,7 +117,7 @@ to cover the styling needs of your projects.
 
 It is in several ways:
 
-- You can add your own components or just files
+- You can create your own components
 
 - You can extend existing components by adding CSS rules
 
@@ -123,20 +125,37 @@ It is in several ways:
 
 Everything through modules
 
-Extensions can thus seamlessly be integrated in the build process
+Extensions can thus seamlessly be integrated a build process
 
 ---
 
 # Installing Modules
 
-````shell
-$ npm install vcl/button#v0.1.0
-````
-<small>
-We did not yet publish to NPM
-but that's not an issue with recent NPM versions which allow to specify with
-releases in GIT url.
-</small>
+```shell
+$ npm install vcl-button
+```
+
+---
+
+# “Running“ the Demos of a Module
+
+```shell
+$ git clone https://github.com/vcl/date-picker.git
+
+$ cd date-picker
+
+$ npm install
+
+$ npm start
+```
+
+This will:
+
+1. install the `gulp-vcl-preprocessor`
+2. install all dependent VCL modules
+3. Build the styles and copy stuff to the `build` folder
+4. Start a web server, serving the `build` folder
+5. Open your browser to show all demos from the `demo` folder
 
 ---
 
@@ -144,9 +163,17 @@ releases in GIT url.
 
 The CSS `@import`-statement is used to import modules and files:
 
-Import a module via `@import "<module name>"`
+Import a module via
 
-Import a local file via `@import "<file name>.styl|css"`
+```CSS
+@import "<module name>"
+```
+
+Import a local file via
+
+```CSS
+@import "<file name>.styl|css"
+```
 
 ---
 
@@ -169,18 +196,20 @@ It functions in the same way as the `main` property for JS-modules.
 Soft dependencies via `devDependencies` are used to specify the
 dependencies of modules to run the demos. An example `package.json`:
 
-    "devDependencies": {
-      "gulp": "^3.8.10",
-      "gulp-vcl-preprocessor": "git://github.com/vcl/gulp-vcl-preprocessor",
-      "normalize.css": "^3.0.2",
-      "pre-commit": "^1.0.6",
-      "vcl-build-demo": "git://github.com/vcl/build-demo",
-      "vcl-default-theme": "git://github.com/vcl/default-theme",
-      "vcl-default-theme-terms": "git://github.com/vcl/default-theme-terms",
-      "vcl-font-awesome": "git://github.com/vcl/font-awesome",
-      "vcl-icon": "git://github.com/vcl/icon",
-      "vcl-preprocessor": "git://github.com/vcl/preprocessor"
-    }
+```JavaScript
+"devDependencies": {
+  "gulp": "^3.9.0",
+  "gulp-vcl-preprocessor": "^0.1.0",
+  "normalize.css": "^3.0.2",
+  "pre-commit": "^1.0.6",
+  "vcl-build-demo": "^0.1.0",
+  "vcl-default-theme": "^0.1.0",
+  "vcl-default-theme-terms": "^0.1.0",
+  "vcl-font-awesome": "^0.1.0",
+  "vcl-icon": "^0.1.0",
+  "vcl-preprocessor": "^0.1.0"
+}
+```
 
 ---
 
@@ -188,12 +217,14 @@ dependencies of modules to run the demos. An example `package.json`:
 
 Best explained by a typical `index.styl` of a web app:
 
-    @import "vcl-default-theme-terms"   ← Use the terms of the default theme
-    @import "vcl-default-theme"         ← Use the default theme
-    @import "./vcl-var-override.styl"   ← Override some vars
-    @import "vcl-core-modules"          ← Use the collection of core modules
-    @import "vcl-font-awesome"          ← Use font awesome
-    @import "./own-modules.css"         ← Add some own stuff
+```
+@import "vcl-default-theme-terms"   ← Use the terms of the default theme
+@import "vcl-default-theme"         ← Use the default theme
+@import "./vcl-var-override.styl"   ← Override some vars
+@import "vcl-core-modules"          ← Use the collection of core modules
+@import "vcl-font-awesome"          ← Use font awesome
+@import "./own-modules.css"         ← Add some own stuff
+```
 
 ---
 
@@ -202,8 +233,13 @@ Best explained by a typical `index.styl` of a web app:
 - There is a collection of **~70 __core modules__**
   * with components ranging from typographical styles for text,
 links, lists etc. to complex widgets like a date picker.
+  - They provide roughly wahat you can find in Bootstrap
 
-- They make up for more than what you can find in Bootstrap
+- 85 Modules in total
+
+<br>
+Check the
+**[Generated Docs of all Core Modules](https://vcl.github.io/)**.
 
 ---
 
@@ -216,7 +252,7 @@ links, lists etc. to complex widgets like a date picker.
 
 - Uses relative units like `em`, `rem` everywhere (except for some borders)
 
-- Class names are camelCased like `vclFlipSwitch`
+- camelCase class naming, like `vclFlipSwitch`
 
 - Embraces flexbox
 
@@ -238,43 +274,23 @@ available in older browsers.
 
 ---
 
-# “Running“ the Demos of a Module
-
-````shell
-$ git clone https://github.com/vcl/date-picker.git
-
-$ cd date-picker
-
-$ npm install
-
-$ npm start
-````
-
-This will:
-
-1. install the `gulp-vcl-preprocessor`
-2. install all dependent VCL modules
-3. Build the styles and copy stuff to the `build` folder
-4. Start a web server, serving the `build` folder
-5. Open your browser to show all demos from the `demo` folder
-
----
-
 # Creating Builds
 
 1.) Via CLI
 
 ```shell
-$ npm install -g vcl/preprocessor#v0.1.0
+$ npm install -g vcl-preprocessor
 
 $ vcl-preprocessor index.styl dist/compiled.css
 ```
 
 2.) `package.json` script
 
-    "scripts": {
-      "build-css": "vcl-preprocessor index.styl vcl.css"
-    },
+```JavaScript
+"scripts": {
+  "build-css": "vcl-preprocessor index.styl vcl.css"
+}
+```
 
 3.) [Gulp task](https://github.com/vcl/gulp-vcl-preprocessor)
 
@@ -292,11 +308,6 @@ in a project.
 
 - Completely introspection based; no registry or manual enumeration required
 
-<br>
-Check the
-**[Generated Docs of all Core Modules](https://vcl.github.io/)**
-as an example.
-
 ---
 
 # Doc related Module Meta Data in `package.json`
@@ -307,16 +318,17 @@ The doc-generator is fed by the `categories` part of the meta data.
 - The priorities affect the sort order in the menu of the generated
   documentation
 
-
-    "vcl": {
-      "categories": [
-        {
-          "title": "Buttons",
-          "itemPriority": 10,     ← Order of the category
-          "priority": 80          ← Order of the module within the category
-        }
-      ]
+```JavaScript
+"vcl": {
+  "categories": [
+    {
+      "title": "Buttons",
+      "itemPriority": 10,     ← Order of the category
+      "priority": 80          ← Order of the module within the category
     }
+  ]
+}
+```
 
 There is a
 [list of categories](https://raw.githubusercontent.com/vcl/doc/master/component_categories.yml)
@@ -329,16 +341,18 @@ but it's not mandatory to use them.
 1.) Via CLI
 
 ```shell
-$ npm install -g vcl/doc-gen#v0.1.0
+$ npm install -g vcl-doc-gen
 
-$ vcl-docgen --entry ./package.json --output doc.html
+$ vcl-doc-gen --entry ./package.json --output doc.html
 ```
 
-2.) `package.json` script
+2.) Via `package.json` script
 
-    "scripts": {
-      "doc-gen": "vcl-docgen && opn ./vcl-documentation.html",
-    },
+```JavaScript
+"scripts": {
+  "doc-gen": "vcl-doc-gen && opn ./vcl-documentation.html",
+}
+```
 
 ---
 
@@ -360,27 +374,30 @@ It's battle proven in:
 - Enterprise apps
 
 We are on a conservative **0.1.0 version level** that we
-froze in summer 2015.
+released in summer 2015.
 
 Of course we adhere to
 [semver](http://semver.org/).
 
-We did not publish to NPM yet
-but consider this in the future.
+The 0.1.x series of modules is published on npm.
 
 ---
 
 # Open Issues / Roadmap
 
-- Document classes and modifiers more
+- Enhance documentation of modules
 
-- More components
+- RTL support
+
+- Even more components
 
 - Conditional builds
 
-- Support for `@apply` based extends for easy theme extension
+- Support for [@apply](http://tabatkins.github.io/specs/css-apply-rule/#at-ruledef-apply) based extends for easy theme extension
 
 - Support themes better in doc-gen
+
+- Ability to scope modules to a web component via [ICSS](https://github.com/css-modules/icss)
 
 ---
 
