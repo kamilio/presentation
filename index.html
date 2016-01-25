@@ -274,6 +274,32 @@ available in older browsers.
 
 ---
 
+# Hover Media Queries
+
+[Media Queries Level 4](https://drafts.csswg.org/mediaqueries/#hover)
+allows you to check if a device truly supports hovering or just emulates it.
+Emulated hovering has some ugly quirks, like staying in the _:hover_ state even
+after the user stops interacting with it, so you might want to disable hovering
+for devices which emulate hovering.
+
+However, since it's from a relatively recent Working Draft, the hover media
+feature is not supported in all current modern browsers or in any legacy browsers.
+
+To shim support for these browsers you can use a polyfill, like
+[mq4-hover-shim](https://github.com/twbs/mq4-hover-shim#mq4-hover-shim) and set
+a css-class as hover-prefix, adding:
+```
+{hoverSelectorPrefix: 'some-prefix'};
+```
+to the vcl options.
+
+See [rework-media-features](https://github.com/n-fuse/rework-media-features)
+for more information about the usage or
+[media-features-showcase](https://github.com/romst/media-features-showcase) for
+an example with polyfill.
+
+---
+
 # Creating Builds
 
 1.) Via CLI
@@ -425,7 +451,7 @@ class: center, middle
 </a>.
 <small>
     </textarea>
-    <script src="//gnab.github.io/remark/downloads/remark-latest.min.js">
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
       var slideshow = remark.create();
