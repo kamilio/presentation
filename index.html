@@ -54,7 +54,7 @@ class: center, middle
 # The Visual Component Library “VCL“
 ## Modular, extensible CSS
 
-Thomas Hoppe in 2015
+Thomas Hoppe in 2016
 
 ---
 
@@ -67,9 +67,9 @@ Web application development.
 
 <br>
 
-- Moular, not a framework, 100% JS-free
+- Moular, not a framework, 100% JS-free at runtime
 
-- For static sites and EmberJS, Angular, React driven SPAs
+- For static sites and MV* framework driven SPAs (EmberJS, Angular, React...)
 
 - Does not break your build process, it's part of it
 
@@ -93,7 +93,7 @@ __Theme terms__: High level theme defining colors, shades and fonts
 
 - [Preprocessor](https://github.com/vcl/preprocessor) based on
 [rework css](https://github.com/reworkcss)
-  - [Gulp Task](https://github.com/vcl/gulp-vcl-preprocessor)
+  - [Gulp Task](https://github.com/vcl/gulp-vcl-preprocessor) available
 
 - [npm](https://www.npmjs.org/) as
 package management vehicle and module registry
@@ -102,13 +102,13 @@ package management vehicle and module registry
 
 # Why is it _modular_?
 
-Because components are packaged as NPM modules which may be from:
+Because components are packaged as NPM modules which can be:
 
-- the VCL org's repositories
+- from the VCL org's repositories
 - third parties
 - your own ones
 
-This means you can use exactly the modules you need
+This allows you to use exactly the modules you need
 to cover the styling needs of a project.
 
 ---
@@ -233,9 +233,9 @@ Best explained by a typical `index.styl` of a web app:
 - There is a collection of **~70 __core modules__**
   * with components ranging from typographical styles for text,
 links, lists etc. to complex widgets like a date picker.
-  - They provide roughly wahat you can find in Bootstrap
+  - They provide roughly wahat you can find in Twitter Bootstrap
 
-- 85 Modules in total
+- ~85 Modules from the VCL org's repos
 
 <br>
 Check the
@@ -252,9 +252,11 @@ Check the
 
 - Uses relative units like `em`, `rem` everywhere (except for some borders)
 
-- camelCase class naming, like `vclFlipSwitch`
+- camelCased class naming, like `vclFlipSwitch`
 
 - Embraces flexbox
+
+- More about this in the [guidelines](https://github.com/vcl/doc/blob/master/DEVELOPMENT.md)
 
 ---
 
@@ -274,29 +276,32 @@ available in older browsers.
 
 ---
 
-# Hover Media Queries
+# Hover Media Queries Support
 
 [Media Queries Level 4](https://drafts.csswg.org/mediaqueries/#hover)
-allows you to check if a device truly supports hovering or just emulates it.
+allow to check if a device truly supports hovering or just emulates it.
 Emulated hovering has some ugly quirks, like staying in the _:hover_ state even
 after the user stops interacting with it, so you might want to disable hovering
 for devices which emulate hovering.
 
-However, since it's from a relatively recent Working Draft, the hover media
-feature is not supported in all current modern browsers or in any legacy browsers.
+It's a pretty new WD, but support already
+[exists in some browser engines](http://caniuse.com/#feat=css-media-interaction).
 
-To shim support for these browsers you can use a polyfill, like
-[mq4-hover-shim](https://github.com/twbs/mq4-hover-shim#mq4-hover-shim) and set
-a css-class as hover-prefix, adding:
-```
-{hoverSelectorPrefix: 'some-prefix'};
-```
-to the vcl options.
+A complementary browser shim like
+[mq4-hover-shim](https://github.com/twbs/mq4-hover-shim#mq4-hover-shim)
+is required to enable/ disable hover support through a prefix-class put on
+a top-level element.
 
-See [rework-media-features](https://github.com/n-fuse/rework-media-features)
-for more information about the usage or
-[media-features-showcase](https://github.com/romst/media-features-showcase) for
-an example with polyfill.
+To enable it, the preprocessor needs to be parameterized like this:
+
+```json
+{ hoverSelectorPrefix: 'some-prefix' };
+```
+
+More:
+
+- [rework-media-features](https://github.com/n-fuse/rework-media-features) rework plugin
+- [media-features-showcase](https://github.com/romst/media-features-showcase) demp
 
 ---
 
@@ -416,8 +421,6 @@ The 0.1.x series of modules is published on npm.
 - RTL support
 
 - Even more components
-
-- Conditional builds
 
 - Support for [@apply](http://tabatkins.github.io/specs/css-apply-rule/#at-ruledef-apply) based extends for easy theme extension
 
